@@ -1,63 +1,71 @@
-# simple-agent
+# Build with Gemini: Travel Guide Agent 🌍
 
-Simple ReAct agent
-Agent generated with `agents-cli` version `1.4.0`
+A personalized, intelligent travel guide AI agent built with **Google Agent Development Kit (ADK)** and powered by **Gemini 3.8 Flash** on Google Cloud Vertex AI.
 
-## Project Structure
+The agent grounds its recommendations in real-time using **Google Web Search** and remembers user travel styles, dietary preferences, and past destinations across sessions using **Vertex AI Memory Bank**.
 
-```
-simple-agent/
-├── app/         # Core agent code
-│   ├── agent.py               # Main agent logic
-│   ├── fast_api_app.py        # FastAPI Backend server
-│   └── app_utils/             # App utilities and helpers
-├── tests/                     # Unit, integration, and load tests
-├── GEMINI.md                  # AI-assisted development guide
-└── pyproject.toml             # Project dependencies
-```
+---
 
-> 💡 **Tip:** Use [Antigravity CLI](https://antigravity.google/) for AI-assisted development - project context is pre-configured in `GEMINI.md`.
+## 🌟 Key Features
 
-## Requirements
+- **Real-Time Google Search Grounding**: Live, factual information for destinations worldwide via Google Search.
+- **Cross-Session Long-Term Memory**: Powered by Vertex AI Memory Bank (`PreloadMemoryTool` + auto-memory generation callback) to remember your preferences (e.g., pure vegetarian, budget vs luxury, heritage lover) across conversations.
+- **Structured Categories**: Every destination query is automatically structured into:
+  - 🏛️ **Historic & Mythological Places**: Ancient temples, monuments, UNESCO world heritage sites.
+  - 🏙️ **Famous Sights & Top Attractions**: Iconic city landmarks, viewpoints, nature escapes.
+  - 🛍️ **Shopping & Malls**: Traditional local bazaars, artisanal handicraft markets, modern malls.
+  - 🍜 **Food & Culinary Delights**: Must-try dishes, iconic street eateries, regional sweets.
+  - 💡 **Practical Travel Tips**: Best season to visit, transit advice, cultural etiquette.
 
-Before you begin, ensure you have:
-- **uv**: Python package manager (used for all dependency management in this project) - [Install](https://docs.astral.sh/uv/getting-started/installation/) ([add packages](https://docs.astral.sh/uv/concepts/dependencies/) with `uv add <package>`)
-- **agents-cli**: Agents CLI - Install with `uv tool install google-agents-cli`
-- **Google Cloud SDK**: For GCP services - [Install](https://cloud.google.com/sdk/docs/install)
+---
 
+## 🛠️ Tech Stack & Architecture
 
-## Quick Start
+- **Model**: `gemini-3.8-flash`
+- **Framework**: Google Agent Development Kit (`google-adk`)
+- **Memory Service**: Vertex AI Memory Bank (`VertexAiMemoryBankService`)
+- **Protocol**: Agent-to-Agent (A2A) protocol + FastAPI REST backend
+- **Deployment**: Google Cloud Agent Engine (Agent Runtime)
+- **Tooling**: `google_search`, `PreloadMemoryTool`
 
-Install `agents-cli` and its skills if not already installed:
+---
 
+## 🚀 Running Locally
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/hemanthkantubothu9-glitch/buildwithgemini-travel-agent.git
+   cd buildwithgemini-travel-agent
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   uv sync
+   ```
+
+3. **Set up environment variables**:
+   Create a `.env` file:
+   ```bash
+   GOOGLE_GENAI_USE_VERTEXAI=true
+   GOOGLE_CLOUD_PROJECT=your-project-id
+   GOOGLE_CLOUD_LOCATION=global
+   MEMORY_BANK_ID=your-agent-engine-id
+   ```
+
+4. **Run the local interactive server**:
+   ```bash
+   uv run adk web --port 8080 --reload_agents app
+   ```
+   Open `http://localhost:8080` in your browser.
+
+---
+
+## ☁️ Deployment
+
+Deploy to Google Cloud Agent Runtime using `agents-cli`:
 ```bash
-uvx google-agents-cli setup
+agents-cli deploy --project your-project-id
 ```
-
-Install required packages:
-
-```bash
-agents-cli install
-```
-
-Test the agent with a local web server:
-
-```bash
-agents-cli playground
-```
-
-You can also use features from the [ADK](https://adk.dev/) CLI with `uv run adk`.
-
-## Commands
-
-| Command              | Description                                                                                 |
-| -------------------- | ------------------------------------------------------------------------------------------- |
-| `agents-cli install` | Install dependencies using uv                                                         |
-| `agents-cli playground` | Launch local development environment                                                  |
-| `agents-cli lint`    | Run code quality checks                                                               |
-| `agents-cli eval`    | Evaluate agent behavior (generate, grade, analyze, and more — see `agents-cli eval --help`) |
-| `uv run pytest tests/unit tests/integration` | Run unit and integration tests                                                        |
-| `agents-cli deploy`  | Deploy agent to Agent Runtime                                                                |
 | `agents-cli publish gemini-enterprise` | Register deployed agent to Gemini Enterprise                    || [A2A Inspector](https://github.com/a2aproject/a2a-inspector) | Launch A2A Protocol Inspector                                                        |
 
 ## 🛠️ Project Management
